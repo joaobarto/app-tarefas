@@ -11,5 +11,5 @@ public class ApplicationDbContext : IdentityDbContext
     {
     }
 
-public DbSet<Tipo> Tipos { get; set; } = default!;
+    public DbSet<Tipo> Tipos { get; set; } = null!;
 }

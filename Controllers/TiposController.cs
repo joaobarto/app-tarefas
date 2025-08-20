@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using app_tarefas.Data;
 using app_tarefas.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace app_tarefas.Controllers
 {
+    [Authorize]
     public class TiposController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -20,12 +22,14 @@ namespace app_tarefas.Controllers
         }
 
         // GET: Tipos
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Tipos.ToListAsync());
         }
 
         // GET: Tipos/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,7 +37,7 @@ namespace app_tarefas.Controllers
                 return NotFound();
             }
 
-            var tipo = await _context.Tipo
+            var tipo = await _context.Tipos
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (tipo == null)
             {
@@ -73,7 +77,7 @@ namespace app_tarefas.Controllers
                 return NotFound();
             }
 
-            var tipo = await _context.Tipo.FindAsync(id);
+            var tipo = await _context.Tipos.FindAsync(id);
             if (tipo == null)
             {
                 return NotFound();
@@ -124,7 +128,7 @@ namespace app_tarefas.Controllers
                 return NotFound();
             }
 
-            var tipo = await _context.Tipo
+            var tipo = await _context.Tipos
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (tipo == null)
             {
@@ -139,10 +143,10 @@ namespace app_tarefas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var tipo = await _context.Tipo.FindAsync(id);
+            var tipo = await _context.Tipos.FindAsync(id);
             if (tipo != null)
             {
-                _context.Tipo.Remove(tipo);
+                _context.Tipos.Remove(tipo);
             }
 
             await _context.SaveChangesAsync();
@@ -151,7 +155,7 @@ namespace app_tarefas.Controllers
 
         private bool TipoExists(int id)
         {
-            return _context.Tipo.Any(e => e.Id == id);
+            return _context.Tipos.Any(e => e.Id == id);
         }
     }
 }
